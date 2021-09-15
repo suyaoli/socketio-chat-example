@@ -28,9 +28,9 @@
 </form>
 
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://cdn.socket.io/4.2.0/socket.io.min.js"></script>
 <script>
-  var socket = io.connect('http://localhost');
+  var socket = io.connect('http://localhost:3000');
 
   // Add a username
   $(".username-form").on("submit", function(){

@@ -1,5 +1,5 @@
 var app = require('http').createServer(handler)
-  , io = require('socket.io').listen(app)
+  , io = require('socket.io')(app,{})
   , fs = require('fs')
 
 app.listen(3000);
@@ -27,10 +27,14 @@ io.sockets.on('connection', function (socket) {
     };
   });
 
-  socket.on('private-message', function(data){
+  socket.on('private-message', async function(data){
     console.log("Sending: " + data.content + " to " + data.username);
     if (clients[data.username]){
-      io.sockets.connected[clients[data.username].socket].emit("add-message", data);
+      const sockets = await io.in(clients[data.username].socket).fetchSockets();
+
+      
+
+      sockets[0].emit("add-message", data);
     } else {
       console.log("User does not exist: " + data.username); 
     }
